@@ -7,11 +7,33 @@
     <groupId>com.scissortail.springmc</groupId>
     <artifactId>numberguess</artifactId>
     <version>1.0-SNAPSHOT</version>
+    <modules>
+        <module>core</module>
+    </modules>
     <packaging>pom</packaging>
 
     <properties>
         <maven.compiler.source>11</maven.compiler.source>
         <maven.compiler.target>11</maven.compiler.target>
+        <logback.version>1.2.3</logback.version>
+        <spring.version>5.2.22.RELEASE</spring.version>
     </properties>
 
+    <dependencyManagement>
+        <dependencies>
+            <!-- logging -->
+            <dependency>
+                <groupId>ch.qos.logback</groupId>
+                <artifactId>logback-classic</artifactId>
+                <version>${logback.version}</version>
+            </dependency>
+
+            <!-- spring context -->
+            <dependency>
+                <groupId>org.springframework</groupId>
+                <artifactId>spring-context</artifactId>
+                <version>${spring.version}</version>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
 </project>

@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+        https://www.springframework.org/schema/beans/spring-beans.xsd">
+
+    <bean id="number-generator" class="com.scissortail.NumberGeneratorImpl"/>
+
+    <bean id="game" class="com.scissortail.GameImpl">
+        <!-- the constructor-arg tag is used to set up constructor based dependency injection (DI)
+                `ref` refers to the Bean, the type, that is to be set via the constructor
+                 and here it references the above Bean "number-generator" which sets up the
+                 NumberGeneratorImpl class to be a Bean -->
+        <!-- <constructor-arg ref="number-generator"/> -->
+
+        <!-- the property tag is used for setter based DI
+                `name` refers to the name of the field which will be setup with this DI and
+                `ref` again refers to the Bean to use -->
+        <property name="numberGenerator" ref="number-generator"/>
+    </bean>
+</beans>
+
