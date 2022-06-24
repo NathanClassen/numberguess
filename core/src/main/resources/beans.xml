@@ -1,22 +1,67 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:context="http://www.springframework.org/schema/context"
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xsi:schemaLocation="http://www.springframework.org/schema/beans
-        https://www.springframework.org/schema/beans/spring-beans.xsd">
+        https://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/context
+        http://www.springframework.org/schema/context/spring-context.xsd">
 
-    <bean id="number-generator" class="com.scissortail.NumberGeneratorImpl"/>
+    <!-- context namespace specified on line 3 `xmlns:="<url." -->
 
-    <bean id="game" class="com.scissortail.GameImpl">
-        <!-- the constructor-arg tag is used to set up constructor based dependency injection (DI)
-                `ref` refers to the Bean, the type, that is to be set via the constructor
-                 and here it references the above Bean "number-generator" which sets up the
-                 NumberGeneratorImpl class to be a Bean -->
-        <!-- <constructor-arg ref="number-generator"/> -->
+    <!--
+        component-scan enables Spring to scan the base-package and register Beans.
+        Adding the @Component annotation will register the annotated class as a Bean.
+        component-scan also gives everything that `annotation-config` gave and so Spring can still
+            make use of @Autowired
+        so component-scan removes the need to register Beans via XML in this file
+        whereas before the project was mixing XML based configuration with annotation based configuration
+        by way of using both `annotation-config` (to enable the Autowired
+            annotation) as well as registering Beans with XML, now with `component-scan` the project
+            moves to soley annotation based configuration
+    -->
+    <context:component-scan base-package="com.scissortail"/>
 
-        <!-- the property tag is used for setter based DI
+    <!--
+        removing bean, in favor of registering Bean during the component scan via @Component
+
+        <bean id="number-generator" class="com.scissortail.NumberGeneratorImpl"/>
+    -->
+
+    <!--
+        removing bean, in favor of registering Bean during the component scan via @Component
+
+        <bean id="number-generator" class="com.scissortail.NumberGeneratorImpl"/>
+    -->
+    <!-- <bean id="game" class="com.scissortail.GameImpl"> -->
+        <!--
+
+            no longer using any of the following XML configuration, in favor of using Autowired within the class itself:
+
+            ======================
+            the constructor-arg tag is used to set up constructor based dependency injection (DI)
+                `ref` refers to the Bean, the type, that is to be set injected via the constructor and here it references
+                the above Bean "number-generator" which sets up the NumberGeneratorImpl class to be a Bean
+
+            <constructor-arg ref="number-generator"/>
+
+            ======================
+             the property tag is used to set up setter based DI
                 `name` refers to the name of the field which will be setup with this DI and
-                `ref` again refers to the Bean to use -->
-        <property name="numberGenerator" ref="number-generator"/>
-    </bean>
+                `ref` again refers to the Bean to inject as the dependency
+
+            <property name="numberGenerator" ref="number-generator"/>
+        -->
+    <!-- </bean> -->
+    <!--
+        no longer creating this one Bean, in favor of the <context:annotation-config> which enables gives us this
+            bean as well as AutowiredAnnotationBeanPostProcessor:
+
+        ======================
+        a Bean which enables the use of @PostConstruct and @PreDestroy annotations in GameImpl
+            this Bean also relies on the javax.annotation dependency which can be seen in the POMs
+
+        <bean class="org.springframework.context.annotation.CommonAnnotationBeanPostProcessor"/>
+    -->
 </beans>
 
