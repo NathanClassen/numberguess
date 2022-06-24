@@ -8,7 +8,7 @@ import org.springframework.stereotype.Component;
 import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
 
-@Component
+// not annotated with @Component, so needs to be produced in ApplicationConfiguration as a Bean
 public class GameImpl implements Game {
     // == constants ==
 

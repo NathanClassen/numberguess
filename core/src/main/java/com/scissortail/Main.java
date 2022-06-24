@@ -3,6 +3,7 @@ package com.scissortail;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.ConfigurableApplicationContext;
+import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 public class Main {
@@ -12,12 +13,25 @@ public class Main {
     public static void main(String[] args) {
         log.info("guess the number game");
 
-        // create context
-        ConfigurableApplicationContext context = new ClassPathXmlApplicationContext(CONFIG_LOCATION);
+        /*
+        create context
+
+            now that the project uses the @Configuration annotated ApplicationConfiguration class for Spring configuration
+                the following will be replaced:
+
+                ConfigurableApplicationContext context = new ClassPathXmlApplicationContext(CONFIG_LOCATION);
+
+            with:
+         */
+        ConfigurableApplicationContext context = new AnnotationConfigApplicationContext(ApplicationConfiguration.class);
 
         NumberGenerator numberGenerator = context.getBean(NumberGenerator.class);
 
         log.info("number = {}", numberGenerator.next());
+
+        MessageGenerator messageGenerator = context.getBean(MessageGenerator.class);
+        log.info("messageGenerator.getMainMessage() = {}", messageGenerator.getMainMessage());
+        log.info("messageGenerator.getResultMessage() = {}", messageGenerator.getResultMessage());
 
         // get game bean from context (container)
         Game game = context.getBean(Game.class);
