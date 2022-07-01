@@ -1,10 +1,13 @@
-package com.scissortail;
+package com.scissortail.console;
 
+import com.scissortail.config.ApplicationConfiguration;
+import com.scissortail.Game;
+import com.scissortail.MessageGenerator;
+import com.scissortail.NumberGenerator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
-import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 public class Main {
     private static final String CONFIG_LOCATION = "beans.xml";
@@ -25,13 +28,14 @@ public class Main {
          */
         ConfigurableApplicationContext context = new AnnotationConfigApplicationContext(ApplicationConfiguration.class);
 
+
         NumberGenerator numberGenerator = context.getBean(NumberGenerator.class);
 
         log.info("number = {}", numberGenerator.next());
 
         MessageGenerator messageGenerator = context.getBean(MessageGenerator.class);
-        log.info("messageGenerator.getMainMessage() = {}", messageGenerator.getMainMessage());
-        log.info("messageGenerator.getResultMessage() = {}", messageGenerator.getResultMessage());
+        log.info(messageGenerator.getMainMessage());
+        log.info(messageGenerator.getResultMessage());
 
         // get game bean from context (container)
         Game game = context.getBean(Game.class);

@@ -1,8 +1,10 @@
-package com.scissortail;
+package com.scissortail.config;
 
+import com.scissortail.*;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Import;
 
 /*
     Spring configuration class for project
@@ -13,9 +15,12 @@ import org.springframework.context.annotation.Configuration;
         be seen as imported in both POM.xml files
         See ExternalLibraries to see that the context.annotation package exports the Configuration and
             ComponentScan @interface's
+
+    @Import allows one to import the Bean definitions of another class; allows modular Bean definitions/configs
  */
 
 @Configuration
+@Import(GameConfig.class)
 @ComponentScan(basePackages = "com.scissortail")
 public class ApplicationConfiguration {
     /*

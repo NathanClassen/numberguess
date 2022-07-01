@@ -6,6 +6,7 @@ public interface Game {
     int getSmallest();
     int getBiggest();
     int getRemaining();
+    int getGuessCount();
     void setGuess(int guess);
     void reset();
     void check();
