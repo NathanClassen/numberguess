@@ -7,11 +7,16 @@ import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
 
+@Component
 public class MessageGeneratorImpl implements MessageGenerator {
     private static final Logger logger = LoggerFactory.getLogger(MessageGeneratorImpl.class);
 
+    private final Game game;
+
     @Autowired
-    private Game game;
+    public MessageGeneratorImpl(Game game) {
+        this.game = game;
+    }
 
     @Override
     public String getMainMessage() {
@@ -19,7 +24,7 @@ public class MessageGeneratorImpl implements MessageGenerator {
                 game.getSmallest() +
                 " and "+
                 game.getBiggest()+
-                "\n can you guess it?";
+                "\n can you guess it?\n\n";
     }
 
     public String getResultMessage() {

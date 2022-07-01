@@ -8,18 +8,16 @@ import org.springframework.stereotype.Component;
 import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
 
-// not annotated with @Component, so needs to be produced in ApplicationConfiguration as a Bean
+// [formerly] not annotated with @Component, so needs to be produced in ApplicationConfiguration as a Bean
+@Component
 public class GameImpl implements Game {
     // == constants ==
 
     private static final Logger log = LoggerFactory.getLogger(GameImpl.class);
 
     // == private fields ==
-    @Autowired
-    private NumberGenerator numberGenerator;
-    @Autowired
-    @GuessCount
-    private int guessCount;
+    private final NumberGenerator numberGenerator;
+    private final int guessCount;
 
     private int number;
     private int guess;
@@ -29,23 +27,22 @@ public class GameImpl implements Game {
     private boolean validNumberRange = true;
 
     // == constructors ==
-    //    no longer using this, as it is for Constructor based dependency injection
-    //      is used in conjunction with the <constructor-args> tag in the Bean configuration file
 
-    //    public GameImpl(NumberGenerator numberGenerator) {
-    //        this.numberGenerator = numberGenerator;
-    //    }
+    @Autowired
+    public GameImpl(NumberGenerator numberGenerator, @GuessCount int guessCount) {
+        this.numberGenerator = numberGenerator;
+        this.guessCount = guessCount;
+    }
 
     // == init ==
     @PostConstruct
     @Override
     public void reset() {
-        smallest = 0;
-        guess = 0;
+        smallest = numberGenerator.getMinNumber();
+        guess = numberGenerator.getMinNumber();
         remainingGuesses = guessCount;
         biggest = numberGenerator.getMaxNumber();
         number = numberGenerator.next();
-        log.info("number = {}", number);
     }
 
     @PreDestroy
